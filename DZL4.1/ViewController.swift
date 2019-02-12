@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class ViewController: UIViewController {
 
@@ -18,19 +19,29 @@ class ViewController: UIViewController {
         
         print("Отчество заканчивается на \(myMiddleName(middledName: "Олександрович"))")
         
-        print("Separation name \(separationName(name: "IvanVasilevich"))")
+        print("Separation name \(separationName(name: "NikolayRomanov"))")
         
         print("Mirror string \(reverseStr(str: "Ocb"))")
         
         print("Calculator String - \(calculatorString(number: 1234567))")
         
         safetyOfPassword(password: "123sd+DC")
+        
+        print("Sorted array \(sortedFunc(array: [7, 6, 5, 10, 1, 10, 5, 4, 9, 3, 2, 1]))")
+        
+        print("Translit - \(translitFunc(str: "ЯЗЗЬ"))")
+        
+        let strArray = ["lada", "sedan", "baklazhan"]
+        searchInArray(strArray: strArray)
     }
-
+    
+    // Задача 1 -----> Создать строку с своим именем, вывести количество символов содержащихся в ней.
     func myName(name: String) -> Int {
         return name.count
     }
+    // Задача 1 <-----
     
+    // Задача 2 -----> Создать строку с своим отчеством проверить его на окончание “ич/на”
     func myMiddleName(middledName: String) -> String {
         if middledName.hasSuffix("ич") {
             return "ич"
@@ -40,7 +51,9 @@ class ViewController: UIViewController {
         }
         return "!Введите корректно Отчество!"
     }
+    // Задача 2 <-----
     
+    // Задача 3 -----> Cоздать строку, где слитно написано Ваши ИмяФамилия “IvanVasilevich" Вам нужно разбить на две отдельных строки из предыдущей создать третью, где они обе будут разделены пробелом
     func separationName(name: String) -> (strFullName: String, strFirstName: String, strSecondName: String) {
         
         var strFullName = ""
@@ -65,7 +78,9 @@ class ViewController: UIViewController {
         
         return (strFullName, strFirstName, strSecondName)
     }
+    // Задача 3 <-----
     
+    // Задача 4 -----> Вывести строку зеркально Ось → ьсО не используя reverse (посимвольно)
     func reverseStr(str: String) -> String {
         var reversStr = ""
         for i in str {
@@ -73,7 +88,9 @@ class ViewController: UIViewController {
         }
         return reversStr
     }
+    // Задача 4 <-----
     
+    // Задача 5 -----> Добавить запятые в строку как их расставляет калькулятор
     func calculatorString(number: Int) -> String {
         var numberStr = String(number)
         for i in (-numberStr.count)...(-1) {
@@ -83,7 +100,9 @@ class ViewController: UIViewController {
         }
         return numberStr
     }
+    // Задача 5 <-----
     
+    // Задача 6 -----> Проверить пароль на надежность от 1 до 5
     func safetyOfPassword(password: String) {
         let num = "1234567890"
         let abc = "aqwertyuioplkjhgfdsazxcvbnm"
@@ -124,5 +143,50 @@ class ViewController: UIViewController {
         }
         print("Password \(password) - \(safetty) \(safetyArray)")
     }
+    // Задача 6 <-----
+    
+    // Задача 7 -----> Сортировка массива не встроенным методом по возрастанию + удалить дубликаты
+    func  sortedFunc(array: [Int]) -> [Int] {
+        var arrayFunc = array
+        var sortedArray = [Int].init()
+        for _ in 0...(array.count - 1) {
+            let minValue = arrayFunc.min()!
+            if !sortedArray.contains(minValue) {
+                sortedArray.append(minValue)
+            }
+            arrayFunc.remove(at: arrayFunc.index(of:minValue)!)
+        }
+        return sortedArray
+    }
+    // Задача 7 <-----
+    
+    // Задача 8 -----> Написать метод, который будет переводить строку в транслит.
+    func translitFunc(str: String) -> String {
+        var strTranslit = ""
+        let dictionaryTranslit = ["А": "A", "Б": "B", "В": "V", "Г": "G", "Д": "D", "Е": "E", "Ё": "YO", "Ж": "G", "З": "Z", "И": "I", "Й": "Y", "К": "K", "Л": "L", "М": "M", "Н": "N", "О": "O", "П": "P", "Р": "R", "С": "S", "Т": "T", "У": "U", "Ф": "F", "Х": "H", "Ц": "C", "Ч": "CH", "Ш": "SH", "Щ": "CH'", "Ы": "I", "Э": "E", "Ю": "YU", "Я": "YA",]
+        for i in str {
+            if String(i) == String(i).uppercased() {
+                let charTranslit = (dictionaryTranslit[String(i)] != nil) ? dictionaryTranslit[String(i)]! : ""
+                strTranslit.append(charTranslit)
+            }
+            else {
+                let iUpperCased = String(i).uppercased()
+                let charTranslit = (dictionaryTranslit[iUpperCased] != nil) ? dictionaryTranslit[iUpperCased]! : ""
+                strTranslit.append(charTranslit.lowercased())
+            }
+        }
+        return strTranslit
+    }
+    // Задача 8 <-----
+    
+    // Задача 9 -----> Сделать выборку из массива строк в которых содержится указанная строка
+    func searchInArray(strArray: [String]) {
+        let strArrayFunc = strArray as NSArray
+        let predicat = NSPredicate(format: "'da'")
+        print("predicat - \(strArrayFunc.filtered(using: predicat))")
+        //let resultPredicate = NSPredicate(format: "da %@", argumentArray:strArray)
+        //print("resultPredicate \(resultPredicate)")
+    }
+    // Задача 9 <-----
 }
 
