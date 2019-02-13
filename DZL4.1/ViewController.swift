@@ -31,8 +31,9 @@ class ViewController: UIViewController {
         
         print("Translit - \(translitFunc(str: "ЯЗЗЬ"))")
         
-        let strArray = ["lada", "sedan", "baklazhan"]
-        searchInArray(strArray: strArray)
+        print("Search 'da' in ['lada', 'sedan', 'baklazhan'] - result is - \(searchInArray(strArray: ["lada", "sedan", "baklazhan"], searchStr: "da"))" )
+        
+        print("Primer func antimat Hello my fuck - \(antimat(str: "Hello my fuck", matSet: ["fuck", "fuk"]))")
     }
     
     // Задача 1 -----> Создать строку с своим именем, вывести количество символов содержащихся в ней.
@@ -180,13 +181,50 @@ class ViewController: UIViewController {
     // Задача 8 <-----
     
     // Задача 9 -----> Сделать выборку из массива строк в которых содержится указанная строка
-    func searchInArray(strArray: [String]) {
-        let strArrayFunc = strArray as NSArray
-        let predicat = NSPredicate(format: "'da'")
-        print("predicat - \(strArrayFunc.filtered(using: predicat))")
-        //let resultPredicate = NSPredicate(format: "da %@", argumentArray:strArray)
-        //print("resultPredicate \(resultPredicate)")
+    func searchInArray(strArray: [String], searchStr: String) -> [String] {
+        var searchInArray = [String].init()
+        for i in strArray {
+            if i.contains(searchStr) {
+                searchInArray.append(i)
+            }
+        }
+        return searchInArray
     }
     // Задача 9 <-----
+    
+    // Задача 10 -----> Set<String> - antimat [“fuck”, “fak”] “hello my fak” “hello my ***” использовать Set или NSSet для программы antimat - исключить из предложения все слова содержащиеся в сете
+    func antimat(str: String, matSet: Set<String>) -> String {
+        var strAnimat = String.init()
+        var arrayWords = [String].init()
+        var wordForArrayWords = String.init()
+        
+        for i in 0...(str.count - 1) {
+            if String(str[str.index(str.startIndex, offsetBy: i)]) == " " {
+                arrayWords.append(wordForArrayWords)
+                wordForArrayWords = ""
+            }
+            
+            if  String(str[str.index(str.startIndex, offsetBy: i)]) != " " {
+                wordForArrayWords += String(str[str.index(str.startIndex, offsetBy: i)])
+            }
+            
+            if i == (str.count - 1) {
+                arrayWords.append(wordForArrayWords)
+            }
+        }
+        
+        for i in arrayWords {
+            if !matSet.contains(i) {
+                strAnimat += i + " "
+            }
+            else {
+                strAnimat += "*** "
+            }
+        }
+        strAnimat.removeLast()
+        
+        return strAnimat
+    }
+    // Задача 10 <-----
 }
 
